@@ -10,6 +10,7 @@ export default function CharacterListScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+
   //Utilisation de useEffect pour l'appel au montage
   useEffect(() => {
     const loadData = async () => {
