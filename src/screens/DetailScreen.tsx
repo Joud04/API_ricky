@@ -1,0 +1,14 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+export default function DetailScreen() {
+  return (
+    <View style={styles.container}>
+      <Text>Écran de Détail (Bientôt disponible...)</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+});
