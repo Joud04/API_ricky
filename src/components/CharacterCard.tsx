@@ -1,68 +1,49 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Character } from '../types/api.types'; // On importe notre interface
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Character } from '../types/api.types';
 
-//Ce composant accepte une "prop" nommée character de type Character
 interface CharacterCardProps {
   character: Character;
 }
 
 export default function CharacterCard({ character }: CharacterCardProps) {
+  // Hook pour accéder à la navigation sans passer par les props du parent
+  const navigation = useNavigation<any>();
+
   return (
-    <View style={styles.card}>
-      {/*Affichage de l'avatar */}
-      <Image 
-        source={{ uri: character.image }} 
-        style={styles.image} 
-      />
-      
-      <View style={styles.infoContainer}>
-        {/*Affichage du nom */}
+    <TouchableOpacity 
+      style={styles.card} 
+      // Au clic, on navigue vers 'Detail' en passant l'ID [cite: 62]
+      onPress={() => navigation.navigate('Detail', { id: character.id })}
+      activeOpacity={0.7}
+    >
+      <Image source={{ uri: character.image }} style={styles.avatar} />
+      <View style={styles.infoBox}>
         <Text style={styles.name}>{character.name}</Text>
-        
-        {/*Affichage du statut */}
-        <Text style={styles.status}>
-          État : {character.status} - {character.species}
-        </Text>
+        <Text style={styles.species}>{character.species} - {character.status}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
-//Style pour une carte avec bords arrondis et ombre légère
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
+    padding: 12,
     backgroundColor: '#fff',
     borderRadius: 12, // Bords arrondis
-    marginBottom: 15,
-    padding: 10,
-    // Ombre pour iOS
+    marginBottom: 12,
+    alignItems: 'center',
+    // Ombre légère pour le look "pro"
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    // Ombre pour Android
     elevation: 3,
   },
-  image: {
-    width: 70,
-    height: 70,
-    borderRadius: 35, // Image ronde
-  },
-  infoContainer: {
-    marginLeft: 15,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  status: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
+  avatar: { width: 60, height: 60, borderRadius: 30, marginRight: 15 },
+  infoBox: { flex: 1 },
+  name: { fontSize: 18, fontWeight: 'bold', color: '#333' },
+  species: { color: '#666', fontSize: 14 },
 });

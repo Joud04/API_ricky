@@ -13,3 +13,11 @@ export const getCharacters = async (): Promise<ApiResponse<Character>> => {
   // On retourne l'objet complet (qui contient .info et .results)
   return response.data;
 };
+
+/**
+ * Récupère les détails d'un personnage unique via son ID 
+ */
+export const getCharacterById = async (id: number): Promise<Character> => {
+  const response = await apiClient.get<Character>(`/character/${id}`); // Route spécifique 
+  return response.data;
+};
